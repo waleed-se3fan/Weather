@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:weather/bloc/weather_bloc_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -95,9 +96,11 @@ class HomeScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 30),
                                 ),
-                                const Text(
-                                  'Friday 16 . 09.41 am',
-                                  style: TextStyle(
+                                Text(
+                                  DateFormat('EEEE dd HH:mm a')
+                                      .format(DateTime.now())
+                                      .toString(),
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w300,
                                       fontSize: 16),
@@ -110,9 +113,9 @@ class HomeScreen extends StatelessWidget {
                                       'assets/11.png',
                                       scale: 8,
                                     ),
-                                    const Column(
+                                    Column(
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Sunrise',
                                           style: TextStyle(
                                             color: Colors.white,
@@ -120,8 +123,8 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          '5:34 am',
-                                          style: TextStyle(
+                                          state.weather.sunrise.toString(),
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -132,9 +135,9 @@ class HomeScreen extends StatelessWidget {
                                       'assets/12.png',
                                       scale: 8,
                                     ),
-                                    const Column(
+                                    Column(
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Sunset',
                                           style: TextStyle(
                                             color: Colors.white,
@@ -142,8 +145,8 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          '5:34 am',
-                                          style: TextStyle(
+                                          state.weather.sunset.toString(),
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w700,
                                           ),

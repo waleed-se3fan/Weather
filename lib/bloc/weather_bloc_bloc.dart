@@ -19,14 +19,17 @@ class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
   }
 
   getlocation() async {
+    print('///////////////////////');
     emit(LocationBlocLoading());
     try {
+      print('++++++++++++++++++++++++++');
       Position position = await Geolocator.getCurrentPosition();
       String lat = position.latitude.toString();
       String lon = position.longitude.toString();
       emit(LocationBlocSucces(lat, lon));
       fetchWeather(lat, lon);
     } catch (e) {
+      print('***************************************');
       emit(LocationBlocFailure());
     }
   }
