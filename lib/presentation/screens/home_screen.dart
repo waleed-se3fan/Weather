@@ -112,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                                       fontSize: 25),
                                 ),
                               ),
-                              Image.asset(WeatherBlocBloc.weather_image(
+                              Image.asset(WeatherBlocBloc.weatherImage(
                                   state.weather.main)),
                               Text(
                                 '${state.weather.temp.toString()} °C',

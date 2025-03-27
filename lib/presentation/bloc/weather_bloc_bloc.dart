@@ -1,16 +1,12 @@
-import 'dart:convert';
+// ignore_for_file: invalid_use_of_visible_for_testing_member
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:weather/core/utils/snackbar.dart';
 import 'package:weather/data/datasource/remoteDataSource.dart';
-import 'package:weather/data/models/weather.dart';
 import 'package:weather/data/repositories/get_weather.dart';
 import 'package:weather/domain/entities/entity.dart';
-import 'package:weather/domain/repositiries/weatherrepo.dart';
 import 'package:weather/domain/usecases/useCase.dart';
 part 'weather_bloc_event.dart';
 part 'weather_bloc_state.dart';
@@ -46,10 +42,12 @@ class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
     try {
       WeatherEntity weather = await getWeatherUsecase.call(lat, lon);
       emit(WeatherBlocSucces(weather));
-    } catch (e) {}
+    } catch (e) {
+      emit(WeatherBlocFailure());
+    }
   }
 
-  static String weather_image(String weather) {
+  static String weatherImage(String weather) {
     if (weather == 'Clear') {
       return 'assets/7.png';
     } else if (weather == 'Clouds') {
