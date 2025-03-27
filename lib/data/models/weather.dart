@@ -1,3 +1,5 @@
+import 'package:weather/domain/entities/entity.dart';
+
 class WeatherModel {
   String description;
   double temp;
@@ -22,5 +24,18 @@ class WeatherModel {
         json['main']['temp_max']?.toDouble() ?? 0.0,
         json['sys']['sunrise']?.toDouble() ?? 0.0,
         json['sys']['sunset']?.toDouble() ?? 0.0);
+  }
+
+  WeatherEntity toEntity() {
+    return WeatherEntity(
+        description: description,
+        temp: temp,
+        city_name: city_name,
+        country: country,
+        main: main,
+        temp_min: temp_min,
+        temp_max: temp_max,
+        sunrise: sunrise,
+        sunset: sunset);
   }
 }

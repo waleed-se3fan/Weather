@@ -9,7 +9,7 @@ class WeatherBlocLoading extends WeatherBlocState {}
 class WeatherBlocFailure extends WeatherBlocState {}
 
 class WeatherBlocSucces extends WeatherBlocState {
-  final WeatherModel weather;
+  final WeatherEntity weather;
   WeatherBlocSucces(this.weather);
 }
 

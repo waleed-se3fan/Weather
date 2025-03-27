@@ -1,58 +1,52 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:weather/data/weather.dart';
+import 'package:weather/core/utils/snackbar.dart';
+import 'package:weather/data/datasource/remoteDataSource.dart';
+import 'package:weather/data/models/weather.dart';
+import 'package:weather/data/repositories/get_weather.dart';
+import 'package:weather/domain/entities/entity.dart';
+import 'package:weather/domain/repositiries/weatherrepo.dart';
+import 'package:weather/domain/usecases/useCase.dart';
 part 'weather_bloc_event.dart';
 part 'weather_bloc_state.dart';
 
 class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
   WeatherBlocBloc() : super(WeatherBlocInitial()) {
-    on<WeatherBlocEvent>((event, emit) {
-      fetchWeather('0.0', '0.0');
-    });
     on<GetLocationEvent>((event, emit) {
       getlocation();
     });
+    on<GetWeatherByCityEvent>((event, emit) {
+      searchByCity(event.cityName, event.context);
+    });
   }
 
+  final getWeatherUsecase =
+      GetWeatherUseCase(WeatherRepositoryImpl(WeatherRemoteDataSourceImpl()));
+
   getlocation() async {
-    print('///////////////////////');
     emit(LocationBlocLoading());
     try {
-      print('++++++++++++++++++++++++++');
       Position position = await Geolocator.getCurrentPosition();
       String lat = position.latitude.toString();
       String lon = position.longitude.toString();
       emit(LocationBlocSucces(lat, lon));
       fetchWeather(lat, lon);
     } catch (e) {
-      print('***************************************');
       emit(LocationBlocFailure());
     }
   }
 
   Future fetchWeather(lat, lon) async {
     emit(WeatherBlocLoading());
-    String api_token = 'd4194c8c732203fca9bc434b49de3b29';
-    print(lat);
-    print(lon);
-    String url =
-        'https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_token}&units=metric';
-    Uri uri = Uri.parse(url);
-    Response response = await http.get(uri);
-    if (response.statusCode == 200) {
-      var body = response.body;
-      var data = jsonDecode(body);
-      print(data);
-      WeatherModel weather = WeatherModel.fromJson(data);
+    try {
+      WeatherEntity weather = await getWeatherUsecase.call(lat, lon);
       emit(WeatherBlocSucces(weather));
-    } else {
-      emit(WeatherBlocFailure());
-      print('Failed to fetch data');
-    }
+    } catch (e) {}
   }
 
   static String weather_image(String weather) {
@@ -68,6 +62,17 @@ class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
       return 'assets/5.png';
     } else {
       return 'assets/9.png';
+    }
+  }
+
+  Future searchByCity(String city, context) async {
+    emit(WeatherBlocLoading());
+    try {
+      final weather = await getWeatherUsecase.getWeatherbyCity(city);
+      emit(WeatherBlocSucces(weather));
+    } catch (e) {
+      CustomSnackBar().showSnackBar(context);
+      getlocation();
     }
   }
 }
