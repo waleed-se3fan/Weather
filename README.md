@@ -2,15 +2,20 @@
 
 A new Flutter project.
 
-## Getting Started
+## 📖 Description  
+• Created a weather app providing real-time weather updates, forecasts, and weather details.
+• Used Clean Architecture and BLOC for improved scalability and performance.
+• Designed a visually appealing and easy-to-navigate user interface
 
-This project is a starting point for a Flutter application.
+## 🛠️ Tech Stack  
+- **Flutter** – Cross-platform framework  
+- **Dart** – Programming language  
+- **Clean Architecture** – For scalable and maintainable code  
+- **BLOC** – State management  
+- **Geolocator** – Maps integration  
+- **HTTP** – Making network requests  
 
-A few resources to get you started if this is your first Flutter project:
+## 🎬 Demo  
+[![Watch the demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
